@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/2022_04_28_init_book.xml
+  - include:
+      file: db/changelog/2022_04_28_init_borrowed.xml
+  - include:
+      file: db/changelog/2022_04_28_init_user.xml

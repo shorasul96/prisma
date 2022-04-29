@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+
+    <changeSet id="2022_04_28_init_user" author="Shorasul">
+        <createTable tableName="users">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(127)">
+                <constraints nullable="true" />
+            </column>
+            <column name="first_name" type="varchar(127)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="member_since" type="varchar(15)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="member_till" type="varchar(15)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="gender" type="varchar(2)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+
+    <changeSet id="2022_04_28_init_user_data" author="Shorasul">
+
+        <loadData
+                file="db/data/user.csv"
+                separator=","
+                usePreparedStatements="true"
+                tableName="users">
+            <column name="name" type="varchar"/>
+            <column name="first_name" type="varchar"/>
+            <column name="member_since" type="varchar"/>
+            <column name="member_till" type="varchar"/>
+            <column name="gender" type="varchar"/>
+        </loadData>
+    </changeSet>
+
+    <changeSet id="2022_04_28_init_user_clean" author="Shorasul">
+        <delete  tableName="users">
+            <where>name=''</where>
+        </delete>
+    </changeSet>
+
+</databaseChangeLog>

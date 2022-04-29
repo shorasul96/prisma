@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+
+    <changeSet id="2022_04_28_init_book" author="Shorasul">
+        <createTable tableName="books">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="author" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="genre" type="varchar(127)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="publisher" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+
+    <changeSet id="2022_04_28_init_book_data" author="Shorasul">
+        <loadData
+                file="db/data/books.csv"
+                separator=","
+                tableName="books">
+            <column name="title" type="varchar" defaultValue=""/>
+            <column name="Author" type="varchar"/>
+            <column name="Genre" type="varchar"/>
+            <column name="Publisher" type="varchar"/>
+        </loadData>
+    </changeSet>
+
+    <changeSet id="2022_04_28_init_book_clean" author="Shorasul">
+        <delete tableName="books">
+            <where>title=''</where>
+        </delete>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+
+    <changeSet id="2022_04_28_init_borrowed" author="Shorasul">
+        <createTable tableName="rents">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="borrower" type="varchar(127)">
+                <constraints nullable="true" />
+            </column>
+            <column name="book" type="varchar(127)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="borrowed_from" type="varchar(15)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="borrowed_to" type="varchar(15)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2022_04_28_init_borrowed_index" author="Shorasul">
+        <createIndex indexName="borrower_index" tableName="rents">
+            <column name="borrower"/>
+        </createIndex>
+    </changeSet>
+
+
+    <changeSet id="2022_04_28_init_borrowed_data" author="Shorasul">
+
+        <loadData
+                file="db/data/borrowed.csv"
+                separator=","
+                tableName="rents">
+            <column name="Borrower" type="varchar" defaultValue=""/>
+            <column name="Book" type="varchar"/>
+            <column name="borrowed_from" type="varchar"/>
+            <column name="borrowed_to" type="varchar"/>
+        </loadData>
+    </changeSet>
+
+    <changeSet id="2022_04_28_init_borrowed_clean" author="Shorasul">
+        <delete  tableName="rents">
+            <where>borrower=''</where>
+        </delete>
+    </changeSet>
+
+</databaseChangeLog>
