@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
         DateTimeFormatter formatters = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
         return userRepository.getUserListByRantingInDateRange(
-                LocalDate.parse(from, formatters).atStartOfDay(),
-                LocalDate.parse(to, formatters).atStartOfDay());
+                LocalDate.parse(from.trim(), formatters).atStartOfDay(),
+                LocalDate.parse(to.trim(), formatters).atStartOfDay());
     }
 }

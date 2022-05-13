@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    username: test
+    url: jdbc:h2:mem:prisma
+    driverClassName: org.h2.Driver
+    password: test
+  h2:
+    console:
+      enabled: 'true'
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    properties:
+      hibernate:
+        format_sql: 'true'
+  liquibase:
+    enabled: false
+
+regex:
+  date: '^(1[0-2]|0[1-9])/(3[01]|[12][0-9]|0[1-9])/(19|20)\d{2}$'

@@ -8,13 +8,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommonResponseDTO {
-    public CommonResponseDTO(String message, int responseCode) {
+    public CommonResponseDTO(String message, int status) {
         this.data = null;
         this.message = message;
-        this.responseCode = responseCode;
+        this.status = status;
     }
 
     private Object data;
     private String message;
-    private int responseCode;
+    private int status;
 }

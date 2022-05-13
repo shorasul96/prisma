@@ -58,7 +58,7 @@ public class UserController {
 
     @GetMapping("rented-at-date")
     public ResponseEntity<CommonResponseDTO> getAllUsersRentingAtGivenDate(
-            @RequestHeader(defaultValue = "en") String language,
+            @RequestHeader(name = "Accept-Language", defaultValue = "en") String language,
             @RequestParam(defaultValue = "") String date) {
         if (Pattern.compile(DATE_PATTERN)
                 .matcher(date.trim())
@@ -75,7 +75,7 @@ public class UserController {
 
     @GetMapping("rented-at-date-range")
     public ResponseEntity<Object> getAllUsersRentingAtRangeOfDates(
-            @RequestHeader(defaultValue = "en") String language,
+            @RequestHeader(name = "Accept-Language", defaultValue = "en") String language,
             @RequestParam(defaultValue = "") String from,
             @RequestParam(defaultValue = "") String to) {
         if (Pattern.compile(DATE_PATTERN).matcher(from.trim()).matches()
