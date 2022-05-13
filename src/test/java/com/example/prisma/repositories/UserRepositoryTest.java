@@ -2,6 +2,7 @@ package com.example.prisma.repositories;
 
 import com.example.prisma.entities.RentEntity;
 import com.example.prisma.entities.UserEntity;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,6 +34,12 @@ class UserRepositoryTest {
         mockRent = getMockRent();
         userRepositoryTest.save(mockUser);
         rentRepositoryTest.save(mockRent);
+    }
+
+    @AfterEach
+    void tearDown() {
+        userRepositoryTest.deleteAll();
+        rentRepositoryTest.deleteAll();
     }
 
     @Test

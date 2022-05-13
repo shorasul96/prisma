@@ -2,55 +2,69 @@ package com.example.prisma.services.impl;
 
 import com.example.prisma.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageRequest;
 
-import java.util.Collections;
+import java.time.LocalDateTime;
 
-import static com.example.prisma.data.MockData.getOneUserFromList;
-import static com.example.prisma.data.MockData.userListWithRent;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.mockito.Mockito.when;
+import static com.example.prisma.data.MockData.getMockRent;
+import static org.mockito.Mockito.verify;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 class UserServiceImplTest {
 
     @Mock
     private UserRepository userRepository;
-
+    private UserServiceImpl userServiceTest;
 
     @BeforeEach
     void setUp() {
-        when(userRepository.getUserListWithOutRent()).thenReturn(Collections.emptyList());
-        when(userRepository.getUserListWithRent()).thenReturn(userListWithRent());
+        userServiceTest = new UserServiceImpl(userRepository);
     }
 
     @Test
     void getAllUserListWithRent() {
-        assertEquals(11, userRepository.getUserListWithRent().size());
-
+        // when
+        userServiceTest.getAllUserListWithRent();
+        // then
+        verify(userRepository).getUserListWithRent();
     }
 
     @Test
-    @DisplayName("SUCCESS_getAllUserListWithOutRent")
     void getAllUserListWithOutRentS() {
-        assertEquals(Collections.emptyList(), userRepository.getUserListWithOutRent());
-    }
-
-    @Test
-    @DisplayName("FAIL_getAllUserListWithOutRent")
-    void getAllUserListWithOutRentF() {
-        assertNotEquals(getOneUserFromList(), userRepository.getUserListWithOutRent());
+        // when
+        userServiceTest.getAllUserListWithOutRent();
+        // then
+        verify(userRepository).getUserListWithOutRent();
     }
 
     @Test
     void getUserRentAtDate() {
+        // when
+        userServiceTest.getUserRentAtDate(getMockRent().getBorrowedFrom());
+        // then
+        verify(userRepository).findAllUserByDateRent(getMockRent().getBorrowedFrom());
     }
 
     @Test
     void getUserRentAtRangeOfDate() {
+        // when
+        ArgumentCaptor<LocalDateTime> dateTime = ArgumentCaptor.forClass(LocalDateTime.class);
+        userServiceTest.getUserRentAtRangeOfDate(getMockRent().getBorrowedFrom(), getMockRent().getBorrowedTo());
+        // then
+        verify(userRepository).getUserListByRantingInDateRange(dateTime.capture(), dateTime.capture());
+    }
+
+    @Test
+    void getUserListByPage() {
+        // when
+        PageRequest of = PageRequest.of(0, 10);
+        userServiceTest.getUserListByPage(of);
+        // then
+        verify(userRepository).findAll(of);
     }
 }
